@@ -6,7 +6,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-/** Compile-time verified Room queries against the weights table. */
+/** Room DAO for weight table operations. */
 @Dao
 public interface RoomWeightDao {
 
