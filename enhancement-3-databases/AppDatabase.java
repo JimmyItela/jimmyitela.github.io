@@ -10,16 +10,11 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 /**
- * Replaces the hand-written {@code SQLiteOpenHelper} (formerly {@code DatabaseHelper}) whose
- * {@code onUpgrade} dropped and recreated every table on any schema change - the most serious
- * defect found in the Milestone One code review. {@link #MIGRATION_2_3} is the non-destructive
- * fix: every row is copied forward into the new schema before anything old is dropped.
- *
- * <p>The database file name and version 2 schema exactly match what the old
- * {@code SQLiteOpenHelper} produced (including the already-hashed passwords from the Category
- * One enhancement), so a device upgrading from that version opens the same file Room now owns,
- * rather than starting from an empty database.
- */
+ * Room database with a non-destructive migration from the original
+ * {@code SQLiteOpenHelper}. Existing data is preserved during upgrades,
+ * and the original database file is reused.
+*/
+
 @Database(entities = {UserEntity.class, WeightEntity.class, GoalEntity.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -48,18 +43,12 @@ public abstract class AppDatabase extends RoomDatabase {
         return result;
     }
 
-    /**
-     * The original hand-written {@code CREATE TABLE} statements declared each {@code id} column
-     * as {@code INTEGER PRIMARY KEY AUTOINCREMENT} without an explicit {@code NOT NULL}, and
-     * relied on inline {@code UNIQUE} column constraints, which SQLite backs with an unnamed
-     * {@code sqlite_autoindex_*} rather than a named index. Room's schema validator requires an
-     * explicit {@code NOT NULL} on primary keys and explicitly named indices for every
-     * {@code @Index}, and SQLite's {@code ALTER TABLE} cannot change either of those on an
-     * existing column. So this migration rebuilds each table with the exact target schema -
-     * create the new table, copy every row across, drop the old table, rename the new one - and
-     * adds the composite index the dashboard's dominant query (weights by user, ordered by date)
-     * needs. Every row survives; nothing is ever dropped without first being copied forward.
-     */
+   /**
+   * Rebuilds each table to match Room's schema. Existing data is copied to the new
+   * tables before the originals are replaced, and a composite index is added to
+   * improve query performance.
+   */
+
     static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase db) {
