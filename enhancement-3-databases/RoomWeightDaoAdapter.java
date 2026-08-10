@@ -6,7 +6,10 @@ import java.util.List;
 import com.example.weighttracker.data.WeightDao;
 import com.example.weighttracker.data.model.WeightEntry;
 
-/** Implements the domain-facing {@link WeightDao} contract over {@link RoomWeightDao}. */
+/**
+* Adapts the domain {@link WeightDao} interface to {@link RoomWeightDao},
+* translating between domain models and Room entities.
+*/
 public class RoomWeightDaoAdapter implements WeightDao {
 
     private final RoomWeightDao roomWeightDao;
