@@ -4,10 +4,8 @@ import com.example.weighttracker.data.UserDao;
 import com.example.weighttracker.data.model.User;
 
 /**
- * Implements the domain-facing {@link UserDao} contract over the Room-generated {@link RoomUserDao},
- * translating between {@link UserEntity} and {@link User}. This is the seam the DAO-interface
- * design from Category One was built for: swapping the persistence technology underneath the
- * repository requires only this class, not any change to {@code WeightTrackerRepository} or a ViewModel.
+ * Adapts the domain {@link UserDao} interface to Room, allowing the persistence
+ * layer to change without affecting the repository or ViewModels.
  */
 public class RoomUserDaoAdapter implements UserDao {
 
