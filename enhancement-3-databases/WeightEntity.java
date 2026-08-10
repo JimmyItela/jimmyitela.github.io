@@ -8,11 +8,9 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 /**
- * Room's on-disk representation of a weight entry row. The composite index on
- * {@code (user_id, entry_date)} is the Category Three enhancement's performance fix for the
- * app's most frequent query - weights for a user, ordered by date - which previously had no
- * index at all.
- */
+* Room entity representing a weight record. Includes a composite index on
+* {@code (user_id, entry_date)} to optimize weight history queries.
+*/
 @Entity(
         tableName = "weights",
         indices = {@Index(value = {"user_id", "entry_date"})},
