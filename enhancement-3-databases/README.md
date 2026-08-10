@@ -1,24 +1,24 @@
 # Enhancement Three — Databases
 
-Migration of the persistence layer from a hand-written `SQLiteOpenHelper` to the
-**Room** persistence library, fixing the most serious defect from the Milestone
-One code review: an `onUpgrade` that dropped every table (and all user data) on
-any schema change.
+Migrating persistence layer from manually implemented `SQLiteOpenHelper` to using
+the **Room** library to fix one major issue from milestone one code review:
+an `onUpgrade` that drops every table (and all user data) on any schema change.
 
-## What changed
+## What has been done
 
-- **Room entities and DAOs.** `UserEntity`, `WeightEntity`, and `GoalEntity`
-  define the schema; the `Room*Dao` classes provide compile-time-verified queries.
-- **Non-destructive migration.** `AppDatabase.MIGRATION_2_3` rebuilds each table
-  with a create-copy-drop-rename pattern, so every existing row is copied forward
-  before anything is dropped — no user data is lost on upgrade.
-- **Indexing.** A composite index on `(user_id, entry_date)` optimizes the
-  dashboard's dominant query.
-- **Adapter pattern.** The `Room*DaoAdapter` classes implement the existing
-  `UserDao` / `WeightDao` / `GoalDao` interfaces on top of Room, so the
-  repository and every ViewModel work unchanged — the interfaces built in
-  Enhancement One made this migration a drop-in.
-- **Aggregate query.** `WeeklyAverage` supports a weekly-average SQL aggregation.
+- **Entities and DAOs for Room.** `UserEntity`, `WeightEntity`, and `GoalEntity`
+  describe the database schema while `Room*Dao` are used to perform queries at
+  compile time.
+- **Destructive migration.** `AppDatabase.MIGRATION_2_3` recreates every table
+  using create+copy+drop+rename strategy so that all the rows are copied before
+  tables are being dropped — no user data will be lost during an upgrade.
+- **Indexing.** Composite index on `(user_id, entry_date)` helps to optimize
+  the query which is executed most often from the dashboard's point of view.
+- **Adapter Pattern.** Implementation of existing `UserDao`, `WeightDao` and
+  `GoalDao` interfaces by `Room*DaoAdapter` allows using Room seamlessly inside
+  the repository as well as in ViewModels — interfaces developed during
+  enhancement one allowed easy migration.
+- **Aggregate Query.** `WeeklyAverage` provides a way to execute SQL aggregation.
 
 ## Key files
 
