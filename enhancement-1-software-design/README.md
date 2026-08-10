@@ -1,25 +1,22 @@
 # Enhancement One — Software Design & Engineering
 
-The Weight Tracker application refactored from a prototype where the UI and data
-layer were disconnected into a layered **Model-View-ViewModel (MVVM)**
-architecture, with the authentication vulnerabilities from the Milestone One code
-review remediated.
+The Weight Tracker application updated from the original, where there was no connection between the user interface and the data layer, to a layered MVVM architecture with the security flaws fixed in Milestone One reviewed code.
 
 ## What changed
 
-- **MVVM architecture.** Activities became thin renderers; UI state and logic
-  moved into ViewModels wired through a `ViewModelFactory`.
-- **Repository + DAO interfaces.** `WeightTrackerRepository` is the single path
-  from UI to persistence, depending on the `UserDao` / `WeightDao` / `GoalDao`
-  interfaces rather than a concrete database class.
-- **Secure credential handling.** `PasswordHasher` replaces plaintext storage
-  with salted PBKDF2 (100,000 iterations, constant-time comparison);
-  `PasswordValidator` enforces complexity rules; failed logins return one generic
-  message so accounts cannot be enumerated.
-- **Background-thread authentication.** Login runs on an injectable executor and
-  publishes results via `LiveData.postValue`, keeping the deliberately slow hash
-  off the UI thread.
-- **RecyclerView** replaces the hand-built dashboard table.
+- **MVVM architecture.** Activities became renderers, with UI state and logic now
+  held in ViewModels using `ViewModelFactory`.
+- **Repository + DAO interfaces.** The `WeightTrackerRepository` is the only way
+  UI gets at persistent data, and does so through interfaces (`UserDao`,
+  `WeightDao`, and `GoalDao`) instead of a concrete database class.
+- **Credential storage security.** Replaced the password storage with hashed
+  passwords (PBKDF2, 100,000 iterations, constant-time comparison) using the
+  `PasswordHasher` utility; passwords are validated using `PasswordValidator`;
+  all login failure messages become generic to prevent enumeration.
+- **Executor-based authentication.** Login operation runs on an injectable executor,
+  and sends its result using `LiveData.postValue`; this keeps the hashing process
+  that is deliberately slow off the UI thread.
+- **RecyclerView** used instead of manually created dashboard table.
 
 ## Key files
 
