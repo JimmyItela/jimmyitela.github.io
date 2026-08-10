@@ -1,6 +1,6 @@
 package com.example.weighttracker.data.room;
 
-/** Result row for {@link RoomWeightDao#getWeeklyAverages}: an ISO year-week label and its average weight. */
+/** Weekly average weight returned by {@link RoomWeightDao#getWeeklyAverages}. */
 public class WeeklyAverage {
 
     public final String week;
