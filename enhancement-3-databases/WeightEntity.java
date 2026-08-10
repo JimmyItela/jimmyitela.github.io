@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey;
 * Room entity representing a weight record. Includes a composite index on
 * {@code (user_id, entry_date)} to optimize weight history queries.
 */
+
 @Entity(
         tableName = "weights",
         indices = {@Index(value = {"user_id", "entry_date"})},
