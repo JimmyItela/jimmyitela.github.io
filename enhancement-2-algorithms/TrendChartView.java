@@ -18,11 +18,8 @@ import com.example.weighttracker.trend.DatedWeight;
 import com.example.weighttracker.trend.TrendSummary;
 import com.example.weighttracker.trend.WeightTrendAnalyzer;
 
-/**
- * Hand-drawn line chart: the raw weight history plus the fitted trend line from
- * {@link WeightTrendAnalyzer}. Deliberately not a third-party charting library - the point of
- * this view is to present the regression the analyzer already computed, not to add a dependency.
- */
+/** Evaluates the regression line for chart rendering. */
+
 public class TrendChartView extends View {
 
     private static final float PADDING_PX = 24f;
