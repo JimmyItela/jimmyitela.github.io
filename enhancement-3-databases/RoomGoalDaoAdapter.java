@@ -3,11 +3,8 @@ package com.example.weighttracker.data.room;
 import com.example.weighttracker.data.GoalDao;
 import com.example.weighttracker.data.model.Goal;
 
-/**
- * Implements the domain-facing {@link GoalDao} contract over {@link RoomGoalDao}, preserving the
- * original select-then-insert-or-update semantics of the hand-written {@code saveGoal} rather
- * than restructuring the goals table around a user_id primary key.
- */
+/** Repository adapter for {@link RoomGoalDao}. */
+
 public class RoomGoalDaoAdapter implements GoalDao {
 
     private final RoomGoalDao roomGoalDao;
