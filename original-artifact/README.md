@@ -21,9 +21,11 @@ Each of these is addressed in the enhanced versions of the artifact.
 
 ## Files
 
-- `MainActivity.java` — login screen
-- `DashboardActivity.java` — weight history dashboard
-- `AddWeightActivity.java` — add/edit a weight entry
-- `GoalWeightActivity.java` — set goal weight and SMS preference
-- `DatabaseHelper.java` — SQLite persistence (CRUD for users, weights, goals)
-- `SessionManager.java` — session persistence via SharedPreferences
+## Files
+
+- [MainActivity.java](MainActivity.java) — login screen
+- [DashboardActivity.java](DashboardActivity.java) — weight history dashboard
+- [AddWeightActivity.java](AddWeightActivity.java) — add/edit a weight entry
+- [GoalWeightActivity.java](GoalWeightActivity.java) — set goal weight and SMS preference
+- [DatabaseHelper.java](DatabaseHelper.java) — SQLite persistence (CRUD for users, weights, goals)
+- [SessionManager.java](SessionManager.java) — session persistence via SharedPreferences
