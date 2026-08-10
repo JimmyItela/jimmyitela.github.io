@@ -10,6 +10,9 @@ enhancements — the baseline for the before-and-after comparison.
 ## Enhancement One — Software Design & Engineering
 [Browse the enhanced code](enhancement-1-software-design/)
 
+## Enhancement Two — Algorithms & Data Structures
+[Browse the enhanced code](enhancement-2-algorithms/)
+
 <h2>Code Review</h2>
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/iV9Xuasd2oI"
