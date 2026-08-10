@@ -10,30 +10,13 @@ import java.util.List;
 import com.example.weighttracker.data.model.WeightEntry;
 
 /**
- * Computes summary statistics and a projected goal date from a user's weight history: current
- * weight, total change, a 7-day moving average, min/max, and a hand-implemented least-squares
- * linear regression used to project when the user will reach their goal weight.
- *
- * <p>This class has no Android framework dependency, so it runs under plain JUnit on the host
- * JVM with no emulator or Robolectric needed. Dates are expected in ISO-8601 ({@code yyyy-MM-dd});
- * any entry whose date fails to parse is dropped rather than failing the whole analysis, since a
- * single malformed row (from before date validation was enforced) shouldn't take down the
- * dashboard.
- *
- * <p><b>Complexity:</b> sorting the entries ascending by date is O(n log n); the summary
- * statistics and the regression sums (Sx, Sy, Sxy, Sxx) are then accumulated in a single O(n)
- * pass.
- *
- * <p><b>Caching trade-off:</b> the regression sums are each a linear accumulation, so they could
- * be maintained incrementally in O(1) per insert. Min and max cannot be updated in O(1) under
- * deletion in the general case - removing the current minimum forces a rescan - so a fully
- * incremental cache would still need an O(n) fallback for edits and deletes. Given that, and
- * given this app's realistic data volume (one person's daily weigh-ins, at most a few thousand
- * rows over years of use), a full recompute on every dashboard refresh costs microseconds. The
- * bookkeeping and invalidation logic a true incremental cache would need isn't worth it at this
- * scale, so this class recomputes from scratch on every call instead of maintaining persistent
- * state.
+ * Computes weight statistics and projects a goal date using a least-squares regression.
+ * Dates must use ISO-8601 (yyyy-MM-dd); invalid dates are ignored. Analysis runs in
+ * O(n log n) due to sorting, followed by an O(n) pass for statistics and regression.
+ * The results are recomputed on each request because the application's small dataset
+ * doesn't justify the added complexity of maintaining an incremental cache.
  */
+
 public final class WeightTrendAnalyzer {
 
     private static final int MOVING_AVERAGE_WINDOW = 7;
@@ -42,11 +25,11 @@ public final class WeightTrendAnalyzer {
     private WeightTrendAnalyzer() {
     }
 
-    /**
-     * Parses and sorts the raw entries ascending by date, dropping any with an unparseable date.
-     * Exposed separately from {@link #analyze} so callers that only need the chronological series
-     * (for example, a chart) don't have to duplicate the date parsing.
-     */
+/**
+ * Parses and sorts weight entries by date, skipping invalid dates.
+ * Provided separately for callers that only need the chronological series.
+ */
+
     public static List<DatedWeight> sortedSeries(List<WeightEntry> rawEntries) {
         List<DatedWeight> parsed = new ArrayList<>();
         for (WeightEntry entry : rawEntries) {
@@ -103,7 +86,8 @@ public final class WeightTrendAnalyzer {
         return sum / count;
     }
 
-    /** Single-pass least-squares linear regression: weight as a function of days since the first entry. */
+    /** Computes a least-squares linear regression for weight over time. */
+
     private static Regression fitLinearRegression(List<DatedWeight> entries, LocalDate firstDate) {
         int n = entries.size();
         double sumX = 0;
@@ -120,8 +104,8 @@ public final class WeightTrendAnalyzer {
         }
 
         double denominator = n * sumXX - sumX * sumX;
-        // Fewer than two points, or every point on the same day: the line's slope is undefined.
-        // Treat it as flat rather than dividing by (near) zero.
+        // Use a flat slope when there are too few distinct dates to calculate one.
+        
         if (n < 2 || Math.abs(denominator) < FLAT_SLOPE_EPSILON) {
             return new Regression(0, sumY / n);
         }
