@@ -19,7 +19,6 @@ ePortfolio.
 
 Each of these is addressed in the enhanced versions of the artifact.
 
-## Files
 
 ## Files
 
