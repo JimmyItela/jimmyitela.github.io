@@ -4,7 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-/** Compile-time verified Room queries against the goals table. */
+/** Room DAO providing compile-time verified goal queries. */
 @Dao
 public interface RoomGoalDao {
 
