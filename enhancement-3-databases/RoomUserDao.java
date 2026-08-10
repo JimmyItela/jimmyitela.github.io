@@ -4,7 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-/** Compile-time verified Room queries against the users table. */
+/** Room DAO for user table operations. */
 @Dao
 public interface RoomUserDao {
 
