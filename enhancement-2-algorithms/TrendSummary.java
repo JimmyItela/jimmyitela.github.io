@@ -3,7 +3,7 @@ package com.example.weighttracker.trend;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-/** Immutable snapshot of the statistics {@link WeightTrendAnalyzer} computes from a user's weight history. */
+/** Immutable weight-trend analysis results. */
 public class TrendSummary {
 
     private final boolean hasData;
@@ -71,17 +71,17 @@ public class TrendSummary {
         return slopePerDay;
     }
 
-    /** Non-null only when the trend is moving toward the goal at a non-zero rate. */
+    /** Present only when the trend is moving toward the goal. */
     public LocalDate getProjectedGoalDate() {
         return projectedGoalDate;
     }
 
-    /** True once at least one valid entry has been analyzed, so a fitted line can be drawn. */
+    /** True when enough data exists to draw a trend line. */
     public boolean hasTrendLine() {
         return hasData;
     }
 
-    /** Evaluates the fitted regression line at an arbitrary date, for rendering the trend line. */
+    /** Evaluates the regression line for a given date. */
     public double trendWeightOn(LocalDate date) {
         long day = ChronoUnit.DAYS.between(firstEntryDate, date);
         return slopePerDay * day + interceptWeight;
