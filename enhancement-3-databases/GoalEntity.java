@@ -7,7 +7,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-/** Room's on-disk representation of a goal row. Matches the table the original SQLiteOpenHelper created. */
+//** Room entity representing a goal record from the original database schema. */
 @Entity(
         tableName = "goals",
         indices = {@Index(value = "user_id", unique = true)},
