@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-/** Room's on-disk representation of a user row. Matches the table the original SQLiteOpenHelper created. */
+/** Room entity for a user record. */
 @Entity(tableName = "users", indices = {@Index(value = "username", unique = true)})
 public class UserEntity {
 
