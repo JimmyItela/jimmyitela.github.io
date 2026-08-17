@@ -1,5 +1,3 @@
-Portfolio content will be published here as each capstone milestone is completed.
-
 Self-Assessment:
 
 Completing the Computer Science program and building my ePortfolio has allowed me to reflect on the extent to which my technical skills and professional objectives have developed throughout my education. Initially, I started the program with a goal of becoming more proficient at software development and extending my technical background related to audiovisual systems, network integration, and technical systems. However, during my time in the Computer Science program, my interest in cybersecurity and information technology has grown, as I realized that there are no standalone concepts such as cybersecurity and data management in software design.
